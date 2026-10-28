@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دمو فروشگاهی | ورود و ثبت نام</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #f7971e;
+            --secondary: #ffd200;
+            --primary-gradient: linear-gradient(135deg, #f7971e, #ffd200);
+            --bg-gradient: linear-gradient(135deg, #fff8f0 0%, #ffefe0 100%);
+            --text: #1a1a2e;
+            --text-muted: #8a8aaa;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(255, 200, 0, 0.1);
+            --input-bg: rgba(0, 0, 0, 0.02);
+            --input-border: rgba(0, 0, 0, 0.05);
+            --shadow: 0 30px 80px rgba(255, 200, 0, 0.04);
+            --modal-bg: white;
+            --social-bg: #f5f5fa;
+            --social-border: #e8e8f0;
+            --accent-text: #1a0a00;
+        }
+
+        body.dark-mode {
+            --bg-gradient: linear-gradient(135deg, #0f0a00 0%, #1a1000 100%);
+            --text: #e8e8f0;
+            --text-muted: #8888a8;
+            --card-bg: rgba(30, 20, 0, 0.9);
+            --card-border: rgba(255, 210, 0, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --input-border: rgba(255, 255, 255, 0.06);
+            --shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            --modal-bg: #1a1000;
+            --social-bg: #2a1a00;
+            --social-border: rgba(255, 255, 255, 0.06);
+            --accent-text: #e8e8f0;
+        }
+
+body {
+    font-family: 'Vazir', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-gradient);
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;   /* ← فقط افقی مخفی */
+    overflow-y: auto;     /* ← عمودی قابل اسکرول */
+    transition: background 0.4s;
+}
+
+        /* ذرات طلایی */
+        .gold-particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .gold-particle {
+            position: absolute; width: 8px; height: 8px;
+            background: radial-gradient(circle, var(--secondary), var(--primary));
+            border-radius: 50%; opacity: 0.3;
+            animation: goldFloat 10s infinite ease-in-out;
+        }
+        .gold-particle:nth-child(1) { top: 10%; left: 10%; width: 12px; height: 12px; }
+        .gold-particle:nth-child(2) { top: 25%; left: 80%; animation-delay: 1.5s; width: 6px; height: 6px; }
+        .gold-particle:nth-child(3) { top: 55%; left: 20%; animation-delay: 3s; width: 10px; height: 10px; }
+        .gold-particle:nth-child(4) { top: 75%; left: 70%; animation-delay: 4.5s; width: 8px; height: 8px; }
+        .gold-particle:nth-child(5) { top: 40%; left: 50%; animation-delay: 6s; width: 14px; height: 14px; }
+
+        @keyframes goldFloat {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.3; }
+            25% { transform: translate(25px, -35px) scale(1.6) rotate(90deg); opacity: 0.6; }
+            50% { transform: translate(-20px, 20px) scale(0.9) rotate(180deg); opacity: 0.2; }
+            75% { transform: translate(35px, 25px) scale(1.3) rotate(270deg); opacity: 0.5; }
+        }
+
+        .theme-toggle {
+            position: fixed; top: 20px; left: 20px; z-index: 9999;
+            width: 50px; height: 50px; border-radius: 50%;
+            border: 1px solid var(--card-border); background: var(--card-bg);
+            backdrop-filter: blur(20px); color: var(--text);
+            font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow);
+            transition: all 0.4s; display: flex; align-items: center; justify-content: center;
+        }
+        .theme-toggle:hover { transform: scale(1.1) rotate(20deg); }
+
+        .container {
+            background: var(--card-bg); backdrop-filter: blur(20px);
+            border-radius: 50px; padding: 45px 35px;
+            max-width: 480px; width: 100%;
+            border: 1px solid var(--card-border); box-shadow: var(--shadow);
+            position: relative; z-index: 1; transition: all 0.4s;
+        }
+
+        .brand { text-align: center; margin-bottom: 35px; }
+        .brand .logo {
+            width: 75px; height: 75px;
+            background: var(--primary-gradient);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 15px; font-size: 2.5rem; color: var(--accent-text);
+            box-shadow: 0 15px 40px rgba(255, 210, 0, 0.15);
+            animation: logoBounce 3s infinite ease-in-out;
+        }
+        @keyframes logoBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+        .brand h2 { color: var(--text); font-size: 1.8rem; font-weight: 800; }
+        .brand p { color: var(--text-muted); font-size: 0.9rem; }
+
+        .tabs {
+            display: flex; background: var(--input-bg); border-radius: 60px;
+            padding: 5px; margin-bottom: 30px; border: 1px solid var(--input-border);
+        }
+
+        .tab-btn {
+            flex: 1; padding: 14px 0; border: none; background: transparent;
+            color: var(--text-muted); font-size: 0.95rem; font-weight: 600;
+            border-radius: 50px; cursor: pointer; transition: 0.3s;
+            font-family: 'Vazir', sans-serif;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .tab-btn.active {
+            background: var(--primary-gradient); color: var(--accent-text);
+            box-shadow: 0 8px 30px rgba(255, 210, 0, 0.15);
+        }
+
+        .form-container { display: none; animation: slideUp 0.4s ease; }
+        .form-container.active { display: block; }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group { margin-bottom: 22px; }
+
+        .input-wrapper {
+            display: flex; align-items: center;
+            background: var(--input-bg); border-radius: 30px;
+            border: 1px solid var(--input-border); padding: 0 20px;
+            transition: 0.3s;
+        }
+        .input-wrapper:focus-within {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 4px rgba(255, 210, 0, 0.1);
+            background: var(--card-bg);
+        }
+        .input-wrapper.valid {
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.08);
+        }
+        .input-wrapper.valid i:first-child { color: #10b981; }
+        .input-wrapper.invalid {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.08);
+            animation: shake 0.4s;
+        }
+        .input-wrapper.invalid i:first-child { color: #ef4444; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        .input-wrapper i { color: var(--text-muted); margin-left: 12px; transition: 0.3s; }
+        .input-wrapper:focus-within i { color: var(--primary); }
+
+        .input-wrapper input {
+            width: 100%; padding: 16px 0; background: transparent;
+            border: none; outline: none; color: var(--text);
+            font-size: 0.95rem; font-family: 'Vazir', sans-serif;
+        }
+        .input-wrapper input::placeholder { color: var(--text-muted); opacity: 0.6; }
+
+        .toggle-password {
+            cursor: pointer; color: var(--text-muted);
+            padding: 8px 4px; transition: 0.3s;
+        }
+        .toggle-password:hover { color: var(--text); }
+
+        .field-error {
+            display: none; color: #ef4444; font-size: 0.75rem;
+            margin-top: 6px; padding-right: 8px;
+            align-items: center; gap: 5px;
+            animation: slideDown 0.3s;
+        }
+        .field-error.show { display: flex; }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Password Strength */
+        .password-strength {
+            margin-top: 10px; opacity: 0; max-height: 0; overflow: hidden;
+            transition: all 0.4s;
+        }
+        .password-strength.show { opacity: 1; max-height: 200px; margin-top: 14px; }
+
+        .strength-bar {
+            height: 6px; background: rgba(0, 0, 0, 0.06);
+            border-radius: 50px; overflow: hidden; margin-bottom: 10px;
+        }
+        .strength-fill {
+            height: 100%; width: 0; border-radius: 50px;
+            transition: all 0.4s;
+        }
+        .strength-fill.weak { width: 25%; background: linear-gradient(90deg, #ef4444, #f87171); }
+        .strength-fill.fair { width: 50%; background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .strength-fill.good { width: 75%; background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .strength-fill.strong { width: 100%; background: linear-gradient(90deg, #10b981, #34d399); }
+
+        .strength-info {
+            display: flex; justify-content: space-between;
+            margin-bottom: 10px; font-size: 0.78rem;
+        }
+        .strength-label { font-weight: 700; }
+        .strength-label.weak { color: #ef4444; }
+        .strength-label.fair { color: #f59e0b; }
+        .strength-label.good { color: #3b82f6; }
+        .strength-label.strong { color: #10b981; }
+        .strength-percent { color: var(--text-muted); font-weight: 600; }
+
+        .strength-rules {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 6px 12px; margin-top: 10px;
+        }
+        .strength-rule {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.72rem; color: var(--text-muted);
+            transition: 0.3s;
+        }
+        .strength-rule i {
+            font-size: 0.6rem; width: 14px; height: 14px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; background: rgba(0, 0, 0, 0.06);
+            color: transparent; transition: 0.3s;
+        }
+        .strength-rule.met { color: #10b981; font-weight: 600; }
+        .strength-rule.met i {
+            background: #10b981; color: white;
+            animation: checkPop 0.4s;
+        }
+        @keyframes checkPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .form-options {
+            display: flex; justify-content: space-between;
+            align-items: center; margin: 20px 0 28px;
+            flex-wrap: wrap; gap: 10px;
+        }
+
+        .checkbox-wrapper {
+            display: flex; align-items: center; gap: 10px;
+            cursor: pointer; color: var(--text-muted); font-size: 0.85rem;
+        }
+        .checkbox-wrapper input[type="checkbox"] { display: none; }
+        .checkbox-wrapper .checkmark {
+            width: 22px; height: 22px; border-radius: 6px;
+            border: 2px solid var(--text-muted);
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; flex-shrink: 0;
+        }
+        .checkbox-wrapper input:checked + .checkmark {
+            background: var(--primary-gradient);
+            border-color: var(--secondary);
+        }
+        .checkbox-wrapper input:checked + .checkmark i { display: block; }
+        .checkbox-wrapper .checkmark i {
+            display: none; color: var(--accent-text); font-size: 0.7rem;
+        }
+
+        .form-options a {
+            color: var(--text-muted); text-decoration: none;
+            font-size: 0.85rem; transition: 0.3s;
+        }
+        .form-options a:hover { color: var(--primary); }
+
+        /* Tooltip */
+        .tooltip-wrapper {
+            position: relative; display: inline-flex;
+            align-items: center; gap: 5px;
+        }
+        .tooltip-icon {
+            width: 15px; height: 15px; border-radius: 50%;
+            background: var(--text-muted); color: white;
+            font-size: 0.55rem; display: flex;
+            align-items: center; justify-content: center;
+            cursor: help; transition: 0.3s;
+        }
+        .tooltip-icon:hover { background: var(--primary); }
+        .tooltip-content {
+            position: absolute; bottom: 140%; right: 50%;
+            transform: translateX(50%) translateY(6px);
+            background: var(--text); color: var(--card-bg);
+            padding: 6px 10px; border-radius: 6px;
+            font-size: 0.7rem; white-space: nowrap;
+            opacity: 0; pointer-events: none;
+            transition: 0.3s; z-index: 10;
+        }
+        .tooltip-content::after {
+            content: ''; position: absolute; top: 100%; right: 50%;
+            transform: translateX(50%); border: 4px solid transparent;
+            border-top-color: var(--text);
+        }
+        .tooltip-wrapper:hover .tooltip-content {
+            opacity: 1; transform: translateX(50%) translateY(0);
+        }
+
+        /* Already Registered */
+        .already-registered {
+            display: none; padding: 14px 18px;
+            background: linear-gradient(135deg, rgba(247, 151, 30, 0.1), rgba(255, 210, 0, 0.08));
+            border: 1px solid rgba(255, 210, 0, 0.3);
+            border-radius: 20px; margin-bottom: 20px;
+            align-items: center; gap: 12px;
+            animation: slideDown 0.4s;
+        }
+        .already-registered.show { display: flex; }
+        .ar-icon {
+            width: 40px; height: 40px; border-radius: 12px;
+            background: var(--primary-gradient);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent-text); font-size: 1.1rem; flex-shrink: 0;
+        }
+        .ar-content { flex: 1; }
+        .ar-title {
+            font-size: 0.85rem; font-weight: 800;
+            color: var(--text); margin-bottom: 2px;
+        }
+        .ar-desc { font-size: 0.75rem; color: var(--text-muted); }
+        .ar-btn {
+            padding: 7px 14px; border-radius: 10px;
+            background: var(--primary-gradient); color: var(--accent-text);
+            border: none; font-family: inherit; font-size: 0.75rem;
+            font-weight: 700; cursor: pointer; transition: 0.3s;
+            white-space: nowrap;
+        }
+        .ar-btn:hover { transform: translateY(-2px); }
+
+        .submit-btn {
+            width: 100%; padding: 16px; border: none;
+            border-radius: 60px; background: var(--primary-gradient);
+            color: var(--accent-text); font-size: 1.05rem; font-weight: 700;
+            font-family: 'Vazir', sans-serif; cursor: pointer;
+            transition: 0.3s; box-shadow: 0 8px 30px rgba(255, 210, 0, 0.15);
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; position: relative; overflow: hidden;
+        }
+        .submit-btn::before {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transition: 0.5s;
+        }
+        .submit-btn:hover::before { left: 100%; }
+        .submit-btn:hover:not(.loading) {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(255, 210, 0, 0.3);
+        }
+        .submit-btn.loading {
+            pointer-events: none; color: transparent;
+        }
+        .submit-btn.loading::before { display: none; }
+        .submit-btn.loading::after {
+            content: ''; position: absolute;
+            top: 50%; left: 50%; width: 22px; height: 22px;
+            margin: -11px 0 0 -11px;
+            border: 3px solid rgba(26, 10, 0, 0.2);
+            border-top-color: var(--accent-text); border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .social-login { margin-top: 30px; text-align: center; }
+        .social-login p {
+            color: var(--text-muted); font-size: 0.8rem;
+            margin-bottom: 18px; display: flex;
+            align-items: center; justify-content: center; gap: 12px;
+        }
+        .social-login p::before, .social-login p::after {
+            content: ''; flex: 1; height: 1px; background: var(--social-border);
+        }
+        .social-icons { display: flex; justify-content: center; gap: 16px; }
+        .social-icons a {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: var(--social-bg); color: var(--text-muted);
+            font-size: 1.2rem; transition: 0.3s;
+            border: 1px solid var(--social-border);
+            text-decoration: none; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .social-icons a:hover {
+            background: var(--card-bg); color: var(--text);
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 210, 0, 0.2);
+        }
+
+        .message-box {
+            margin-top: 16px; padding: 12px 16px;
+            border-radius: 30px; background: var(--input-bg);
+            border: 1px solid var(--social-border);
+            color: var(--text-muted); font-size: 0.85rem;
+            text-align: center; display: none;
+        }
+        .message-box.show { display: block; }
+
+        /* Modal */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(4px);
+            z-index: 1000; justify-content: center; align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: var(--modal-bg); border-radius: 40px;
+            padding: 40px 35px; max-width: 420px; width: 100%;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+            animation: modalPop 0.3s;
+        }
+        @keyframes modalPop {
+            0% { opacity: 0; transform: scale(0.95) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .modal-box h3 { color: var(--text); font-size: 1.4rem; margin-bottom: 8px; }
+        .modal-box p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; }
+        .modal-close {
+            float: left; border: none; background: none;
+            font-size: 1.5rem; color: var(--text-muted);
+            cursor: pointer; transition: 0.3s;
+        }
+        .modal-close:hover { color: var(--text); transform: rotate(90deg); }
+        .step-hidden { display: none; }
+
+        /* Success Modal */
+        .success-modal {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px);
+            z-index: 2000; justify-content: center; align-items: center;
+            padding: 20px;
+        }
+        .success-modal.open { display: flex; }
+        .success-modal-box {
+            background: var(--modal-bg); border-radius: 32px;
+            padding: 45px 35px; max-width: 400px; width: 100%;
+            text-align: center; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+            animation: successPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        @keyframes successPop {
+            0% { opacity: 0; transform: scale(0.7); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .success-icon {
+            width: 90px; height: 90px; margin: 0 auto 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #34d399);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 2.5rem;
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3);
+            animation: successIconPulse 1.5s infinite ease-in-out;
+        }
+        @keyframes successIconPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 15px 40px rgba(16, 185, 129, 0.3); }
+            50% { transform: scale(1.08); box-shadow: 0 20px 55px rgba(16, 185, 129, 0.5); }
+        }
+        .success-modal-box h3 {
+            font-size: 1.5rem; font-weight: 800;
+            color: var(--text); margin-bottom: 12px;
+        }
+        .success-modal-box p {
+            color: var(--text-muted); font-size: 0.9rem;
+            line-height: 1.8; margin-bottom: 28px;
+        }
+        .success-modal-actions { display: flex; gap: 12px; }
+        .success-modal-actions button {
+            flex: 1; padding: 14px; border-radius: 14px;
+            border: none; font-family: inherit;
+            font-size: 0.95rem; font-weight: 700;
+            cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center;
+            justify-content: center; gap: 8px;
+        }
+        .btn-continue {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            color: white; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+        .btn-continue:hover { transform: translateY(-2px); }
+        .btn-close-modal {
+            background: var(--input-bg); color: var(--text-muted);
+            border: 1px solid var(--input-border);
+        }
+
+        /* Confetti */
+        .confetti-container {
+            position: fixed; inset: 0; pointer-events: none;
+            z-index: 3000; overflow: hidden;
+        }
+        .confetti {
+            position: absolute; width: 10px; height: 10px;
+            opacity: 0; animation: confettiFall 3s ease-out forwards;
+        }
+        @keyframes confettiFall {
+            0% { opacity: 1; transform: translateY(-100vh) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed; top: 100px; left: 20px;
+            z-index: 4000; display: flex; flex-direction: column;
+            gap: 10px; pointer-events: none;
+        }
+        .toast {
+            padding: 14px 18px; border-radius: 12px;
+            background: var(--modal-bg); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.88rem; font-weight: 600;
+            color: var(--text); min-width: 260px; max-width: 380px;
+            pointer-events: auto;
+            animation: toastIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-right: 4px solid var(--primary);
+        }
+        .toast.success { border-right-color: #10b981; }
+        .toast.error { border-right-color: #ef4444; }
+        .toast.warning { border-right-color: #f59e0b; }
+        .toast.info { border-right-color: #3b82f6; }
+        .toast.hide { animation: toastOut 0.3s forwards; }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(-100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes toastOut {
+            to { opacity: 0; transform: translateX(-100%); }
+        }
+        .toast-icon {
+            width: 30px; height: 30px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; font-size: 0.85rem;
+        }
+        .toast.success .toast-icon { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .toast.error .toast-icon { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+        .toast.warning .toast-icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .toast.info .toast-icon { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+
+        @media (max-width: 480px) {
+            .container { padding: 30px 20px; border-radius: 35px; }
+            .brand .logo { width: 60px; height: 60px; font-size: 2rem; }
+            .tab-btn { font-size: 0.8rem; padding: 12px 0; }
+            .modal-box, .success-modal-box { padding: 30px 20px; }
+            .theme-toggle { width: 42px; height: 42px; font-size: 1rem; }
+            .strength-rules { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="gold-particles">
+        <div class="gold-particle"></div>
+        <div class="gold-particle"></div>
+        <div class="gold-particle"></div>
+        <div class="gold-particle"></div>
+        <div class="gold-particle"></div>
+    </div>
+
+    <button class="theme-toggle" onclick="toggleTheme()" title="تغییر تم">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </button>
+
+    <div class="container">
+        <div class="brand">
+            <div class="logo"><i class="fas fa-store"></i></div>
+            <h2>شاپ‌مارت</h2>
+            <p>ورود به فروشگاه</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="login"><i class="fas fa-sign-in-alt"></i> ورود</button>
+            <button class="tab-btn" data-tab="register"><i class="fas fa-user-plus"></i> ثبت نام</button>
+        </div>
+
+        <!-- فرم ورود -->
+        <div id="login" class="form-container active">
+            <form onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label style="display:block;color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">
+                        <i class="fas fa-envelope" style="margin-left:6px;"></i> ایمیل
+                    </label>
+                    <div class="input-wrapper" id="loginEmailWrapper">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="loginEmail" placeholder="example@email.com" required>
+                    </div>
+                    <div class="field-error" id="loginEmailError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>ایمیل معتبر نیست</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="display:block;color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">
+                        <i class="fas fa-lock" style="margin-left:6px;"></i> رمز عبور
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="loginPass" placeholder="••••••••" required>
+                        <span class="toggle-password" onclick="togglePass('loginPass', this)">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"><i class="fas fa-check"></i></span>
+                        <span class="tooltip-wrapper">
+                            مرا به خاطر بسپار
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-content">ورود خودکار در بازدید بعدی</span>
+                        </span>
+                    </label>
+                    <a href="#" onclick="openChangePasswordModal()">تغییر رمز</a>
+                </div>
+                <button type="submit" class="submit-btn" id="loginBtn">
+                    <i class="fas fa-arrow-left"></i> ورود
+                </button>
+            </form>
+            <div class="message-box" id="loginMsg"></div>
+        </div>
+
+        <!-- فرم ثبت نام -->
+        <div id="register" class="form-container">
+            <div class="already-registered" id="alreadyRegisteredAlert">
+                <div class="ar-icon"><i class="fas fa-info"></i></div>
+                <div class="ar-content">
+                    <div class="ar-title">شما قبلاً ثبت‌نام کرده‌اید!</div>
+                    <div class="ar-desc" id="arDesc">این ایمیل قبلاً در سیستم ثبت شده است.</div>
+                </div>
+                <button type="button" class="ar-btn" onclick="switchToLogin()">ورود</button>
+            </div>
+
+            <form onsubmit="return handleRegister(event)">
+                <div class="form-group">
+                    <label style="display:block;color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">
+                        <i class="fas fa-user" style="margin-left:6px;"></i> نام کامل
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-id-card"></i>
+                        <input type="text" id="regName" placeholder="نام خود را وارد کنید" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="display:block;color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">
+                        <i class="fas fa-envelope" style="margin-left:6px;"></i> ایمیل
+                    </label>
+                    <div class="input-wrapper" id="regEmailWrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="regEmail" placeholder="example@email.com" required>
+                    </div>
+                    <div class="field-error" id="regEmailError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>ایمیل معتبر نیست</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="display:block;color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">
+                        <i class="fas fa-lock" style="margin-left:6px;"></i> رمز عبور
+                    </label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-key"></i>
+                        <input type="password" id="regPass" placeholder="حداقل ۸ کاراکتر" required minlength="8">
+                        <span class="toggle-password" onclick="togglePass('regPass', this)">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="strength-info">
+                            <span class="strength-label weak">ضعیف</span>
+                            <span class="strength-percent">0%</span>
+                        </div>
+                        <div class="strength-bar">
+                            <div class="strength-fill weak"></div>
+                        </div>
+                        <div class="strength-rules"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label style="display:block;color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">
+                        <i class="fas fa-check-circle" style="margin-left:6px;"></i> تکرار رمز
+                    </label>
+                    <div class="input-wrapper" id="regConfirmWrapper">
+                        <i class="fas fa-check"></i>
+                        <input type="password" id="regPassConfirm" placeholder="تکرار رمز عبور" required>
+                    </div>
+                    <div class="field-error" id="regConfirmError">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>رمز و تکرار آن مطابقت ندارند</span>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" required>
+                        <span class="checkmark"><i class="fas fa-check"></i></span>
+                        <span style="font-size:0.8rem;">با <a href="#">قوانین</a> موافقم</span>
+                    </label>
+                </div>
+                <button type="submit" class="submit-btn" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> ثبت نام
+                </button>
+            </form>
+            <div class="message-box" id="regMsg"></div>
+        </div>
+
+        <div class="social-login">
+            <p>یا از طریق</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-google"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-telegram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال تغییر رمز -->
+    <div id="changePasswordModal" class="modal-overlay" onclick="if(event.target===this) closeChangePasswordModal()">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeChangePasswordModal()"><i class="fas fa-times"></i></button>
+            <h3>🔑 تغییر رمز عبور</h3>
+            <p>برای تغییر رمز عبور، ایمیل یا شماره تماس خود را وارد کنید.</p>
+
+            <div id="step1">
+                <div class="form-group">
+                    <label style="display:block;color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">ایمیل یا شماره تماس</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope"></i>
+                        <input type="text" id="resetEmail" placeholder="example@email.com" required>
+                    </div>
+                </div>
+                <button class="submit-btn" onclick="sendResetCode()">
+                    <i class="fas fa-paper-plane"></i> ارسال کد تأیید
+                </button>
+            </div>
+
+            <div id="step2" class="step-hidden">
+                <div class="form-group">
+                    <label style="display:block;color:var(--text-muted);font-size:0.85rem;margin-bottom:8px;">کد تأیید</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-shield-alt"></i>
+                        <input type="text" id="resetCode" placeholder="کد ۶ رقمی" maxlength="6">
+                    </div>
+                </div>
+                <button class="submit-btn" onclick="verifyResetCode()">
+                    <i class="fas fa-check"></i> تأیید کد
+                </button>
+            </div>
+
+            <div class="message-box" id="resetMsg"></div>
+        </div>
+    </div>
+
+    <!-- مودال موفقیت -->
+    <div class="success-modal" id="successModal">
+        <div class="success-modal-box">
+            <div class="success-icon"><i class="fas fa-check"></i></div>
+            <h3 id="successTitle">موفق!</h3>
+            <p id="successMessage">عملیات با موفقیت انجام شد.</p>
+            <div class="success-modal-actions">
+                <button class="btn-continue" onclick="closeSuccessModal()">
+                    <i class="fas fa-arrow-left"></i> ادامه
+                </button>
+                <button class="btn-close-modal" onclick="closeSuccessModal()">بستن</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== دارک مود ====================
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.getElementById('themeIcon');
+            icon.className = document.body.classList.contains('dark-mode') ? 'fas fa-sun' : 'fas fa-moon';
+            localStorage.setItem('theme-shop', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('theme-shop') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('themeIcon').className = 'fas fa-sun';
+        }
+
+        // ==================== تب‌ها ====================
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const tab = this.dataset.tab;
+                document.querySelectorAll('.form-container').forEach(f => f.classList.remove('active'));
+                document.getElementById(tab).classList.add('active');
+                hideAlreadyRegistered();
+            });
+        });
+
+        function switchToLogin() {
+            document.querySelector('[data-tab="login"]').click();
+        }
+
+        // ==================== نمایش/مخفی رمز ====================
+        function togglePass(inputId, el) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            input.type = input.type === 'password' ? 'text' : 'password';
+            el.querySelector('i').classList.toggle('fa-eye-slash');
+        }
+
+        // ==================== Toast ====================
+        function showToast(message, type = 'info') {
+            let container = document.querySelector('.toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            const icons = { success: 'fa-check', error: 'fa-times', warning: 'fa-exclamation', info: 'fa-info' };
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `<div class="toast-icon"><i class="fas ${icons[type]}"></i></div><div>${message}</div>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        // ==================== Password Strength ====================
+        const strengthRules = {
+            length: { test: p => p.length >= 8, label: 'حداقل ۸ کاراکتر' },
+            lowercase: { test: p => /[a-z]/.test(p), label: 'حرف کوچک' },
+            uppercase: { test: p => /[A-Z]/.test(p), label: 'حرف بزرگ' },
+            number: { test: p => /[0-9]/.test(p), label: 'عدد' },
+            special: { test: p => /[^A-Za-z0-9]/.test(p), label: 'کاراکتر خاص' }
+        };
+
+        function renderPasswordStrength(password) {
+            const container = document.getElementById('passwordStrength');
+            if (!password) { container.classList.remove('show'); return; }
+            container.classList.add('show');
+
+            let metCount = 0;
+            const metRules = [];
+            Object.entries(strengthRules).forEach(([key, rule]) => {
+                if (rule.test(password)) { metCount++; metRules.push(key); }
+            });
+
+            const percent = Math.round((metCount / 5) * 100);
+            let level = 'weak';
+            if (percent >= 80) level = 'strong';
+            else if (percent >= 60) level = 'good';
+            else if (percent >= 40) level = 'fair';
+
+            const labels = { weak: 'ضعیف', fair: 'متوسط', good: 'خوب', strong: 'قوی' };
+
+            container.querySelector('.strength-fill').className = 'strength-fill ' + level;
+            const labelEl = container.querySelector('.strength-label');
+            labelEl.className = 'strength-label ' + level;
+            labelEl.textContent = labels[level];
+            container.querySelector('.strength-percent').textContent = percent + '%';
+
+            container.querySelector('.strength-rules').innerHTML = Object.entries(strengthRules).map(([key, rule]) => {
+                const met = metRules.includes(key);
+                return `<div class="strength-rule ${met ? 'met' : ''}"><i class="fas fa-check"></i><span>${rule.label}</span></div>`;
+            }).join('');
+        }
+
+        // ==================== اعتبارسنجی زنده ====================
+        function attachValidation(inputId, wrapperId, errorId, type) {
+            const input = document.getElementById(inputId);
+            const wrapper = document.getElementById(wrapperId);
+            const errorEl = document.getElementById(errorId);
+            if (!input || !wrapper) return;
+
+            const patterns = {
+                email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                phone: /^09[0-9]{9}$/
+            };
+
+            const validate = () => {
+                const value = input.value.trim();
+                wrapper.classList.remove('valid', 'invalid');
+                if (errorEl) errorEl.classList.remove('show');
+                if (!value) return;
+
+                if (patterns[type] && !patterns[type].test(value)) {
+                    wrapper.classList.add('invalid');
+                    if (errorEl) errorEl.classList.add('show');
+                } else {
+                    wrapper.classList.add('valid');
+                }
+            };
+
+            input.addEventListener('blur', validate);
+            input.addEventListener('input', () => {
+                if (input.value.trim()) {
+                    clearTimeout(input._timer);
+                    input._timer = setTimeout(validate, 400);
+                } else {
+                    wrapper.classList.remove('valid', 'invalid');
+                    if (errorEl) errorEl.classList.remove('show');
+                }
+            });
+        }
+
+        // ==================== "قبلاً ثبت‌نام کرده" ====================
+        const STORAGE_KEY = 'authkit_users_shop';
+
+        function getUsers() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+            catch { return []; }
+        }
+
+        function userExists(email) {
+            return getUsers().some(u => u.email.toLowerCase() === email.toLowerCase());
+        }
+
+        function addUser(user) {
+            const users = getUsers();
+            if (!userExists(user.email)) {
+                users.push({ ...user, registeredAt: new Date().toISOString() });
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+            }
+        }
+
+        function showAlreadyRegistered(email) {
+            const alert = document.getElementById('alreadyRegisteredAlert');
+            const desc = document.getElementById('arDesc');
+            const user = getUsers().find(u => u.email.toLowerCase() === email.toLowerCase());
+            if (user) {
+                const time = new Date(user.registeredAt).toLocaleDateString('fa-IR');
+                desc.textContent = `این ایمیل در تاریخ ${time} ثبت‌نام کرده است. می‌توانید وارد شوید.`;
+            }
+            alert.classList.add('show');
+            showToast('این ایمیل قبلاً ثبت‌نام کرده است', 'warning');
+        }
+
+        function hideAlreadyRegistered() {
+            document.getElementById('alreadyRegisteredAlert').classList.remove('show');
+        }
+
+        // ==================== Confetti ====================
+        function launchConfetti() {
+            const colors = ['#f7971e', '#ffd200', '#10b981', '#34d399', '#f093fb', '#4facfe'];
+            const container = document.createElement('div');
+            container.className = 'confetti-container';
+            document.body.appendChild(container);
+
+            for (let i = 0; i < 60; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                const size = Math.random() * 8 + 6;
+                c.style.cssText = `
+                    left: ${Math.random() * 100}%;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: ${colors[Math.floor(Math.random() * colors.length)]};
+                    border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+                    animation-delay: ${Math.random() * 0.5}s;
+                    animation-duration: ${Math.random() * 1.5 + 2.5}s;
+                `;
+                container.appendChild(c);
+            }
+            setTimeout(() => container.remove(), 5000);
+        }
+
+        // ==================== Success Modal ====================
+        function showSuccessModal(title, message) {
+            document.getElementById('successTitle').textContent = title;
+            document.getElementById('successMessage').textContent = message;
+            document.getElementById('successModal').classList.add('open');
+            launchConfetti();
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('open');
+        }
+
+        // ==================== Loading ====================
+        function startLoading(btn) { btn.classList.add('loading'); btn.disabled = true; }
+        function stopLoading(btn) { btn.classList.remove('loading'); btn.disabled = false; }
+
+        // ==================== هندلر ورود ====================
+        function handleLogin(e) {
+            e.preventDefault();
+            const btn = document.getElementById('loginBtn');
+            const email = document.getElementById('loginEmail').value.trim();
+
+            startLoading(btn);
+
+            setTimeout(() => {
+                stopLoading(btn);
+                localStorage.setItem('authkit_last_email_shop', email);
+                showSuccessModal('ورود موفق!', 'خوش آمدید! در حال انتقال به فروشگاه...');
+            }, 1500);
+
+            return false;
+        }
+
+        // ==================== هندلر ثبت‌نام ====================
+        function handleRegister(e) {
+            e.preventDefault();
+            const btn = document.getElementById('registerBtn');
+            const pass = document.getElementById('regPass');
+            const confirm = document.getElementById('regPassConfirm');
+            const wrapper = document.getElementById('regConfirmWrapper');
+            const errorEl = document.getElementById('regConfirmError');
+            const email = document.getElementById('regEmail').value.trim();
+            const name = document.getElementById('regName').value.trim();
+
+            wrapper.classList.remove('valid', 'invalid');
+            errorEl.classList.remove('show');
+
+            if (pass.value !== confirm.value) {
+                wrapper.classList.add('invalid');
+                errorEl.classList.add('show');
+                showToast('رمز و تکرار آن مطابقت ندارند', 'error');
+                return false;
+            }
+
+            if (userExists(email)) {
+                showAlreadyRegistered(email);
+                return false;
+            }
+
+            startLoading(btn);
+
+            setTimeout(() => {
+                stopLoading(btn);
+                addUser({ name, email });
+                showSuccessModal('ثبت‌نام موفق! 🎉', `${name} عزیز، حساب کاربری شما در شاپ‌مارت ساخته شد.`);
+            }, 1500);
+
+            return false;
+        }
+
+        // ==================== مودال تغییر رمز ====================
+        function openChangePasswordModal() {
+            document.getElementById('changePasswordModal').classList.add('open');
+            document.getElementById('step1').classList.remove('step-hidden');
+            document.getElementById('step2').classList.add('step-hidden');
+            document.getElementById('resetMsg').classList.remove('show');
+        }
+        function closeChangePasswordModal() {
+            document.getElementById('changePasswordModal').classList.remove('open');
+        }
+        function sendResetCode() {
+            const email = document.getElementById('resetEmail').value;
+            if (!email) { showToast('ایمیل را وارد کنید', 'error'); return; }
+            document.getElementById('step1').classList.add('step-hidden');
+            document.getElementById('step2').classList.remove('step-hidden');
+            showToast('کد تأیید ارسال شد', 'success');
+        }
+        function verifyResetCode() {
+            const code = document.getElementById('resetCode').value;
+            if (!code || code.length < 4) { showToast('کد تأیید را وارد کنید', 'error'); return; }
+            closeChangePasswordModal();
+            showSuccessModal('موفق!', 'رمز عبور شما با موفقیت تغییر کرد.');
+        }
+
+        // ==================== راه‌اندازی ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            attachValidation('loginEmail', 'loginEmailWrapper', 'loginEmailError', 'email');
+            attachValidation('regEmail', 'regEmailWrapper', 'regEmailError', 'email');
+
+            document.getElementById('regPass').addEventListener('input', (e) => {
+                renderPasswordStrength(e.target.value);
+            });
+
+            document.getElementById('regEmail').addEventListener('blur', (e) => {
+                const email = e.target.value.trim();
+                if (email && userExists(email)) {
+                    showAlreadyRegistered(email);
+                } else {
+                    hideAlreadyRegistered();
+                }
+            });
+
+            const savedEmail = localStorage.getItem('authkit_last_email_shop');
+            if (savedEmail) document.getElementById('loginEmail').value = savedEmail;
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeChangePasswordModal();
+                closeSuccessModal();
+            }
+        });
+    </script>
+</body>
+</html>

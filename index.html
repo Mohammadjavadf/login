@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مجموعه قالب‌های ورود و ثبت نام مدرن | AuthKit</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: rgba(15, 23, 42, 0.06);
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 20px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 20px 60px rgba(15, 23, 42, 0.08);
+            --shadow-xl: 0 30px 90px rgba(15, 23, 42, 0.12);
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            --gradient-5: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --glow: 0 0 40px rgba(102, 126, 234, 0.3);
+        }
+
+        body.dark-mode {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #0f1626;
+            --bg-tertiary: #141c2e;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+            --shadow-xl: 0 30px 90px rgba(0, 0, 0, 0.6);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Vazir', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background var(--transition), color var(--transition);
+            line-height: 1.6;
+        }
+
+        /* ========== پس‌زمینه متحرک ========== */
+        .bg-animated {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            animation: orbFloat 20s infinite ease-in-out;
+            transition: opacity var(--transition);
+        }
+
+        body.dark-mode .bg-orb {
+            opacity: 0.2;
+        }
+
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            top: -200px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            bottom: -150px;
+            left: -100px;
+            animation-delay: -7s;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            top: 40%;
+            left: 40%;
+            animation-delay: -14s;
+        }
+
+        @keyframes orbFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(60px, -60px) scale(1.15); }
+            66% { transform: translate(-40px, 40px) scale(0.9); }
+        }
+
+        /* ========== هدر ثابت ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all var(--transition);
+            backdrop-filter: blur(20px);
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.85);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            padding: 12px 0;
+        }
+
+        body.dark-mode .navbar.scrolled {
+            background: rgba(10, 14, 26, 0.85);
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            animation: logoRotate 8s infinite ease-in-out;
+        }
+
+        @keyframes logoRotate {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(10deg) scale(1.05); }
+        }
+
+        .nav-logo span {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            transition: width 0.3s;
+            border-radius: 2px;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(20deg) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-cta {
+            padding: 11px 22px;
+            border-radius: 12px;
+            background: var(--gradient-1);
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        /* ========== بخش قهرمان (Hero) ========== */
+        .hero {
+            padding: 160px 24px 80px;
+            max-width: 1300px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            box-shadow: var(--shadow-sm);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero-badge .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .hero-badge i {
+            color: #f59e0b;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            animation: fadeInUp 0.8s ease 0.1s backwards;
+        }
+
+        .hero h1 .gradient-text {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero h1 .gradient-text::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            right: 0;
+            left: 0;
+            height: 12px;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            border-radius: 8px;
+            z-index: -1;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto 40px;
+            line-height: 1.9;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease 0.3s backwards;
+        }
+
+        .btn {
+            padding: 15px 32px;
+            border-radius: 14px;
+            border: none;
+            font-family: 'Vazir', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            right: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 50px rgba(102, 126, 234, 0.45);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        /* ========== آمار ========== */
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            padding: 30px 0;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        /* ========== بخش ویژگی‌ها ========== */
+        .section {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 50px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title .gradient-text {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.9;
+        }
+
+        /* ========== کارت‌های ویژگی ========== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 32px 28px;
+            transition: all var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.25);
+            transition: transform 0.4s;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* رنگ‌های متفاوت آیکون‌ها */
+        .feature-card:nth-child(1) .feature-icon { background: linear-gradient(135deg, #f093fb, #f5576c); box-shadow: 0 10px 30px rgba(245, 87, 108, 0.25); }
+        .feature-card:nth-child(1)::before { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .feature-card:nth-child(2) .feature-icon { background: linear-gradient(135deg, #f7971e, #ffd200); box-shadow: 0 10px 30px rgba(255, 210, 0, 0.3); }
+        .feature-card:nth-child(2)::before { background: linear-gradient(135deg, #f7971e, #ffd200); }
+        .feature-card:nth-child(3) .feature-icon { background: linear-gradient(135deg, #4facfe, #00f2fe); box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3); }
+        .feature-card:nth-child(3)::before { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .feature-card:nth-child(4) .feature-icon { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #2d2d4a; box-shadow: 0 10px 30px rgba(168, 237, 234, 0.4); }
+        .feature-card:nth-child(4)::before { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+
+        /* ========== گالری دموها ========== */
+        .demos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .demo-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-14px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(102, 126, 234, 0.25);
+        }
+
+        .demo-preview {
+            height: 220px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        /* پیش‌نمایش مینیاتوری برای هر دمو */
+        .mini-preview {
+            width: 100%;
+            max-width: 240px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            transform: rotate(-3deg) translateY(10px);
+            transition: transform 0.5s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .demo-card:hover .mini-preview {
+            transform: rotate(0deg) translateY(0) scale(1.05);
+        }
+
+        .mini-preview .mp-header {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .mini-preview .mp-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #e2e8f0;
+        }
+
+        .mini-preview .mp-dot:first-child { background: #ef4444; }
+        .mini-preview .mp-dot:nth-child(2) { background: #f59e0b; }
+        .mini-preview .mp-dot:nth-child(3) { background: #10b981; }
+
+        .mini-preview .mp-field {
+            height: 22px;
+            background: #f1f5f9;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .mini-preview .mp-field.short {
+            width: 60%;
+        }
+
+        .mini-preview .mp-btn {
+            height: 26px;
+            border-radius: 6px;
+            margin-top: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        /* رنگ‌بندی پیش‌نمایش‌ها */
+        .demo-programming .demo-preview { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .demo-programming .mini-preview .mp-btn { background: linear-gradient(135deg, #f093fb, #f5576c); }
+
+        .demo-shop .demo-preview { background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%); }
+        .demo-shop .mini-preview .mp-btn { background: linear-gradient(135deg, #f7971e, #ffd200); }
+
+        .demo-corporate .demo-preview { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .demo-corporate .mini-preview .mp-btn { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+
+        .demo-news .demo-preview { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .demo-news .mini-preview .mp-btn { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+
+        /* ذرات شناور روی پیش‌نمایش */
+        .demo-preview::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 60%);
+            animation: shimmerRotate 8s infinite linear;
+        }
+
+        @keyframes shimmerRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .demo-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 12px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #0f172a;
+            font-size: 0.72rem;
+            font-weight: 800;
+            z-index: 3;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .demo-badge.popular {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+        }
+
+        .demo-content {
+            padding: 26px 24px 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .demo-title-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .demo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .demo-programming .demo-icon { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
+        .demo-shop .demo-icon { background: linear-gradient(135deg, #f7971e, #ffd200); color: #1a0a00; }
+        .demo-corporate .demo-icon { background: linear-gradient(135deg, #4facfe, #00f2fe); color: white; }
+        .demo-news .demo-icon { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #2d2d4a; }
+
+        .demo-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .demo-desc {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.8;
+            margin-bottom: 18px;
+            flex: 1;
+        }
+
+        .demo-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .demo-tag {
+            padding: 5px 12px;
+            border-radius: 50px;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+        }
+
+        .demo-action {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 18px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .demo-view-btn {
+            padding: 11px 22px;
+            border-radius: 12px;
+            border: none;
+            font-family: 'Vazir', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+
+        .demo-programming .demo-view-btn { background: linear-gradient(135deg, #f093fb, #f5576c); box-shadow: 0 6px 20px rgba(245, 87, 108, 0.3); }
+        .demo-shop .demo-view-btn { background: linear-gradient(135deg, #f7971e, #ffd200); color: #1a0a00; box-shadow: 0 6px 20px rgba(255, 210, 0, 0.3); }
+        .demo-corporate .demo-view-btn { background: linear-gradient(135deg, #4facfe, #00f2fe); box-shadow: 0 6px 20px rgba(79, 172, 254, 0.3); }
+        .demo-news .demo-view-btn { background: linear-gradient(135deg, #a8edea, #fed6e3); color: #2d2d4a; box-shadow: 0 6px 20px rgba(168, 237, 234, 0.4); }
+
+        .demo-view-btn:hover {
+            transform: translateX(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .demo-arrow {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .demo-card:hover .demo-arrow {
+            background: var(--gradient-1);
+            color: white;
+            transform: translateX(-4px);
+        }
+
+        /* ========== بخش امکانات مشترک ========== */
+        .common-features {
+            background: var(--bg-secondary);
+            border-radius: 40px;
+            padding: 60px 48px;
+            border: 1px solid var(--border-color);
+            margin-top: 40px;
+        }
+
+        .common-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .common-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 14px;
+        }
+
+        .common-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #667eea;
+            transition: all 0.4s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .common-item:hover .common-icon {
+            transform: translateY(-6px) rotate(-8deg);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .common-item h4 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .common-item p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ========== بخش CTA ========== */
+        .cta-section {
+            max-width: 1300px;
+            margin: 80px auto;
+            padding: 0 24px;
+        }
+
+        .cta-box {
+            background: var(--gradient-1);
+            border-radius: 40px;
+            padding: 70px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(102, 126, 234, 0.3);
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: floatOrb 15s infinite ease-in-out;
+        }
+
+        .cta-box::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: floatOrb 15s infinite ease-in-out reverse;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(40px, -40px); }
+        }
+
+        .cta-box h2 {
+            font-size: clamp(1.6rem, 4vw, 2.5rem);
+            font-weight: 900;
+            color: white;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-box p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.05rem;
+            max-width: 580px;
+            margin: 0 auto 32px;
+            line-height: 1.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-white {
+            background: white;
+            color: #667eea;
+            padding: 15px 32px;
+            border-radius: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            font-size: 1rem;
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            color: white;
+            padding: 15px 32px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            font-size: 1rem;
+            font-family: 'Vazir', sans-serif;
+            cursor: pointer;
+        }
+
+        .btn-outline-white:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            transform: translateY(-3px);
+        }
+
+        /* ========== فوتر ========== */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 60px 24px 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-brand h3 .gradient-text {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.9;
+            max-width: 320px;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 18px;
+            color: var(--text-primary);
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 7px 0;
+            transition: all 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: #667eea;
+            transform: translateX(-5px);
+        }
+
+        .footer-bottom {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-socials a {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-socials a:hover {
+            background: var(--gradient-1);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* ========== انیمیشن‌ها ========== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== ریسپانسیو ========== */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero {
+                padding: 130px 20px 60px;
+            }
+
+            .stats-row {
+                gap: 30px;
+            }
+
+            .stat-value {
+                font-size: 1.7rem;
+            }
+
+            .common-features {
+                padding: 40px 24px;
+                border-radius: 30px;
+            }
+
+            .cta-box {
+                padding: 50px 24px;
+                border-radius: 30px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .nav-cta span {
+                display: none;
+            }
+
+            .nav-cta {
+                padding: 11px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- پس‌زمینه متحرک -->
+    <div class="bg-animated">
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        <div class="bg-orb orb-3"></div>
+    </div>
+
+    <!-- نوار ناوبری -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <div class="nav-logo-icon"><i class="fas fa-shield-halved"></i></div>
+                <span>AuthKit</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">ویژگی‌ها</a>
+                <a href="#demos" class="nav-link">دموها</a>
+                <a href="#common" class="nav-link">امکانات</a>
+                <a href="#contact" class="nav-link">تماس</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-toggle" onclick="toggleTheme()" title="تغییر تم">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <a href="#demos" class="nav-cta">
+                    <i class="fas fa-rocket"></i>
+                    <span>شروع کنید</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- بخش قهرمان -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            <i class="fas fa-star"></i>
+            نسخه ۲.۰ منتشر شد
+        </div>
+        <h1>
+            قالب‌های ورود و ثبت نام
+            <br>
+            <span class="gradient-text">مدرن و حرفه‌ای</span>
+        </h1>
+        <p class="hero-subtitle">
+            مجموعه‌ای از ۴ قالب کاملاً متفاوت با طراحی منحصربه‌فرد، دارک مود، انیمیشن‌های نرم و تجربه کاربری فوق‌العاده. مناسب برای هر نوع کسب‌وکار از فروشگاه تا استارتاپ.
+        </p>
+        <div class="hero-actions">
+            <a href="#demos" class="btn btn-primary">
+                <i class="fas fa-eye"></i>
+                مشاهده دموها
+            </a>
+            <a href="#features" class="btn btn-secondary">
+                <i class="fas fa-info-circle"></i>
+                اطلاعات بیشتر
+            </a>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-value">۴</div>
+                <div class="stat-label">قالب متفاوت</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">۱۰۰٪</div>
+                <div class="stat-label">ریسپانسیو</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">۲</div>
+                <div class="stat-label">حالت رنگی</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">∞</div>
+                <div class="stat-label">سفارشی‌سازی</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- بخش ویژگی‌ها -->
+    <section class="section" id="features">
+        <div class="section-header reveal">
+            <div class="section-tag">ویژگی‌های کلیدی</div>
+            <h2 class="section-title">
+                چرا <span class="gradient-text">AuthKit</span> را انتخاب کنید؟
+            </h2>
+            <p class="section-desc">
+                هر قالب با دقت طراحی شده تا بهترین تجربه کاربری را ارائه دهد و متناسب با نیاز کسب‌وکار شما باشد.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon"><i class="fas fa-palette"></i></div>
+                <h3>طراحی منحصربه‌فرد</h3>
+                <p>هر قالب دارای هویت بصری خاص خود است؛ از رنگ‌بندی تا انیمیشن‌ها و جلوه‌های بصری متفاوت.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><i class="fas fa-moon"></i></div>
+                <h3>دارک مود هوشمند</h3>
+                <p>تمام قالب‌ها از حالت تاریک پشتیبانی می‌کنند و انتخاب شما در مرورگر ذخیره می‌شود.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                <h3>انیمیشن‌های نرم</h3>
+                <p>جلوه‌های بصری زیبا مانند ذرات شناور، خطوط متحرک و افکت‌های درخشش برای جذب کاربر.</p>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3>کاملاً ریسپانسیو</h3>
+                <p>طراحی واکنش‌گرا که در تمام دستگاه‌ها از موبایل تا دسکتاپ عالی به نظر می‌رسد.</p>
+            </div>
+        </div>
+
+        <!-- امکانات مشترک -->
+        <div class="common-features" id="common">
+            <div class="section-header reveal" style="margin-bottom:0;">
+                <div class="section-tag">امکانات مشترک</div>
+                <h2 class="section-title">
+                    همه قالب‌ها <span class="gradient-text">این امکانات</span> را دارند
+                </h2>
+            </div>
+            <div class="common-grid">
+                <div class="common-item reveal">
+                    <div class="common-icon"><i class="fas fa-eye"></i></div>
+                    <h4>نمایش رمز عبور</h4>
+                    <p>امکان مشاهده و مخفی‌سازی رمز عبور با یک کلیک</p>
+                </div>
+                <div class="common-item reveal">
+                    <div class="common-icon"><i class="fas fa-key"></i></div>
+                    <h4>بازیابی رمز</h4>
+                    <p>فرآیند دو مرحله‌ای تغییر رمز با کد تأیید</p>
+                </div>
+                <div class="common-item reveal">
+                    <div class="common-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h4>اعتبارسنجی</h4>
+                    <p>بررسی صحت اطلاعات وارد شده در فرم‌ها</p>
+                </div>
+                <div class="common-item reveal">
+                    <div class="common-icon"><i class="fas fa-comment-dots"></i></div>
+                    <h4>پیام‌های بازخورد</h4>
+                    <p>نمایش پیام‌های موفقیت و خطا به کاربر</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- بخش دموها -->
+    <section class="section" id="demos">
+        <div class="section-header reveal">
+            <div class="section-tag">دموهای زنده</div>
+            <h2 class="section-title">
+                یکی را <span class="gradient-text">انتخاب کنید</span>
+            </h2>
+            <p class="section-desc">
+                روی هر کارت کلیک کنید تا دموی زنده آن را مشاهده کنید. هر قالب را می‌توانید در حالت روشن و تاریک تست کنید.
+            </p>
+        </div>
+
+        <div class="demos-grid">
+            <!-- دمو برنامه‌نویسی -->
+            <div class="demo-card demo-programming reveal" onclick="window.location.href='demo-programming.html'">
+                <div class="demo-preview">
+                    <span class="demo-badge popular">
+                        <i class="fas fa-fire"></i>
+                        محبوب
+                    </span>
+                    <div class="mini-preview">
+                        <div class="mp-header">
+                            <div class="mp-dot"></div>
+                            <div class="mp-dot"></div>
+                            <div class="mp-dot"></div>
+                        </div>
+                        <div class="mp-field"></div>
+                        <div class="mp-field short"></div>
+                        <div class="mp-btn"></div>
+                    </div>
+                </div>
+                <div class="demo-content">
+                    <div class="demo-title-row">
+                        <div class="demo-icon"><i class="fas fa-code"></i></div>
+                        <div class="demo-title">برنامه‌نویسی</div>
+                    </div>
+                    <p class="demo-desc">
+                        طراحی الهام‌گرفته از دنیای کدنویسی با پس‌زمینه متحرک کد، ذرات نئونی درخشان و رنگ‌های بنفش-صورتی.
+                    </p>
+                    <div class="demo-tags">
+                        <span class="demo-tag">ذرات نئونی</span>
+                        <span class="demo-tag">پس‌زمینه کد</span>
+                        <span class="demo-tag">افکت درخشش</span>
+                    </div>
+                    <div class="demo-action">
+                        <button class="demo-view-btn">
+                            مشاهده دمو
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div class="demo-arrow"><i class="fas fa-arrow-left"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- دمو فروشگاهی -->
+            <div class="demo-card demo-shop reveal" onclick="window.location.href='demo-shop.html'">
+                <div class="demo-preview">
+                    <span class="demo-badge">
+                        <i class="fas fa-star"></i>
+                        ویژه فروشگاه
+                    </span>
+                    <div class="mini-preview">
+                        <div class="mp-header">
+                            <div class="mp-dot"></div>
+                            <div class="mp-dot"></div>
+                            <div class="mp-dot"></div>
+                        </div>
+                        <div class="mp-field"></div>
+                        <div class="mp-field short"></div>
+                        <div class="mp-btn"></div>
+                    </div>
+                </div>
+                <div class="demo-content">
+                    <div class="demo-title-row">
+                        <div class="demo-icon"><i class="fas fa-store"></i></div>
+                        <div class="demo-title">فروشگاهی</div>
+                    </div>
+                    <p class="demo-desc">
+                        رنگ‌های گرم و طلایی برای ایجاد حس اعتماد و هیجان خرید، همراه با ذرات طلایی شناور و لوگوی پرشی.
+                    </p>
+                    <div class="demo-tags">
+                        <span class="demo-tag">ذرات طلایی</span>
+                        <span class="demo-tag">رنگ‌های گرم</span>
+                        <span class="demo-tag">لوگوی پرشی</span>
+                    </div>
+                    <div class="demo-action">
+                        <button class="demo-view-btn">
+                            مشاهده دمو
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div class="demo-arrow"><i class="fas fa-arrow-left"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- دمو شرکتی -->
+            <div class="demo-card demo-corporate reveal" onclick="window.location.href='demo-corporate.html'">
+                <div class="demo-preview">
+                    <span class="demo-badge">
+                        <i class="fas fa-briefcase"></i>
+                        حرفه‌ای
+                    </span>
+                    <div class="mini-preview">
+                        <div class="mp-header">
+                            <div class="mp-dot"></div>
+                            <div class="mp-dot"></div>
+                            <div class="mp-dot"></div>
+                        </div>
+                        <div class="mp-field"></div>
+                        <div class="mp-field short"></div>
+                        <div class="mp-btn"></div>
+                    </div>
+                </div>
+                <div class="demo-content">
+                    <div class="demo-title-row">
+                        <div class="demo-icon"><i class="fas fa-building"></i></div>
+                        <div class="demo-title">شرکتی</div>
+                    </div>
+                    <p class="demo-desc">
+                        طراحی مینیمال و حرفه‌ای با رنگ‌های آبی ملایم، مناسب برای سازمان‌ها و پنل‌های مدیریتی.
+                    </p>
+                    <div class="demo-tags">
+                        <span class="demo-tag">ذرات شناور</span>
+                        <span class="demo-tag">مینیمال</span>
+                        <span class="demo-tag">حرفه‌ای</span>
+                    </div>
+                    <div class="demo-action">
+                        <button class="demo-view-btn">
+                            مشاهده دمو
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div class="demo-arrow"><i class="fas fa-arrow-left"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- دمو خبری -->
+            <div class="demo-card demo-news reveal" onclick="window.location.href='demo-news.html'">
+                <div class="demo-preview">
+                    <span class="demo-badge">
+                        <i class="fas fa-newspaper"></i>
+                        رسانه‌ای
+                    </span>
+                    <div class="mini-preview">
+                        <div class="mp-header">
+                            <div class="mp-dot"></div>
+                            <div class="mp-dot"></div>
+                            <div class="mp-dot"></div>
+                        </div>
+                        <div class="mp-field"></div>
+                        <div class="mp-field short"></div>
+                        <div class="mp-btn"></div>
+                    </div>
+                </div>
+                <div class="demo-content">
+                    <div class="demo-title-row">
+                        <div class="demo-icon"><i class="fas fa-newspaper"></i></div>
+                        <div class="demo-title">خبری</div>
+                    </div>
+                    <p class="demo-desc">
+                        طراحی روشن و شاداب با رنگ‌های پاستیلی و خطوط خبری متحرک، مناسب برای سایت‌های خبری و رسانه‌ای.
+                    </p>
+                    <div class="demo-tags">
+                        <span class="demo-tag">خطوط متحرک</span>
+                        <span class="demo-tag">رنگ‌های پاستیلی</span>
+                        <span class="demo-tag">روشن و شاداب</span>
+                    </div>
+                    <div class="demo-action">
+                        <button class="demo-view-btn">
+                            مشاهده دمو
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div class="demo-arrow"><i class="fas fa-arrow-left"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- بخش CTA -->
+    <section class="cta-section">
+        <div class="cta-box reveal">
+            <h2>آماده شروع هستید؟</h2>
+            <p>
+                همین حالا یکی از قالب‌های ما را انتخاب کنید و تجربه کاربری فوق‌العاده‌ای برای کاربران خود بسازید.
+            </p>
+            <div class="cta-buttons">
+                <a href="#demos" class="btn-white">
+                    <i class="fas fa-eye"></i>
+                    مشاهده دموها
+                </a>
+                <button class="btn-outline-white" onclick="scrollToTop()">
+                    <i class="fas fa-arrow-up"></i>
+                    بازگشت به بالا
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- فوتر -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>
+                    <div class="nav-logo-icon" style="width:32px;height:32px;font-size:0.9rem;"><i class="fas fa-shield-halved"></i></div>
+                    <span class="gradient-text">AuthKit</span>
+                </h3>
+                <p>
+                    مجموعه‌ای از قالب‌های ورود و ثبت نام مدرن با طراحی منحصربه‌فرد برای هر نوع کسب‌وکار.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>دموها</h4>
+                <a href="demo-programming.html">برنامه‌نویسی</a>
+                <a href="demo-shop.html">فروشگاهی</a>
+                <a href="demo-corporate.html">شرکتی</a>
+                <a href="demo-news.html">خبری</a>
+            </div>
+            <div class="footer-col">
+                <h4>لینک‌ها</h4>
+                <a href="#features">ویژگی‌ها</a>
+                <a href="#demos">دموها</a>
+                <a href="#common">امکانات</a>
+                <a href="#contact">تماس</a>
+            </div>
+            <div class="footer-col">
+                <h4>پشتیبانی</h4>
+                <a href="#">مستندات</a>
+                <a href="#">سوالات متداول</a>
+                <a href="#">گزارش باگ</a>
+                <a href="#">درخواست قالب</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© ۱۴۰۴ AuthKit - تمامی حقوق محفوظ است. ساخته شده با <i class="fas fa-heart" style="color:#f5576c;"></i> برای توسعه‌دهندگان</p>
+            <div class="footer-socials">
+                <a href="#" title="گیت‌هاب"><i class="fab fa-github"></i></a>
+                <a href="#" title="تلگرام"><i class="fab fa-telegram"></i></a>
+                <a href="#" title="توییتر"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="لینکدین"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ========== تم ==========
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.getElementById('themeIcon');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('theme-index', 'dark');
+            } else {
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('theme-index', 'light');
+            }
+        }
+
+        if (localStorage.getItem('theme-index') === 'dark') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('themeIcon').className = 'fas fa-sun';
+        }
+
+        // ========== نوار ناوبری هنگام اسکرول ==========
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 30) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ========== انیمیشن ظاهر شدن هنگام اسکرول ==========
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // ========== اسکرول نرم ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    const offset = 80;
+                    const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // ========== بازگشت به بالا ==========
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // ========== پارالاکس ملایم برای ارب‌ها ==========
+        document.addEventListener('mousemove', (e) => {
+            const orbs = document.querySelectorAll('.bg-orb');
+            const x = (e.clientX / window.innerWidth - 0.5) * 2;
+            const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 15;
+                orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
